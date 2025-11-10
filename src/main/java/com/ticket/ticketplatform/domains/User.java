@@ -33,7 +33,21 @@ public class User {
     @OneToMany(mappedBy="organizer",cascade=CascadeType.ALL)
     private List<Event> organizedEvents;
 
+    @ManyToMany
+    @JoinTable(
+            name="user_attending_events",
+            joinColumns=@JoinColumn(name="user_id"),
+            inverseJoinColumns=@JoinColumn(name="event_id")
+    )
+    private List<Event> attendingEvents;
 
+    @ManyToMany
+    @JoinTable(
+            name="user_staffing_events",
+            joinColumns=@JoinColumn(name="user_id"),
+            inverseJoinColumns=@JoinColumn(name="event_id")
+    )
+    private List<Event> staffingEvents;
 
     @CreatedDate
     @Column(name="created_at",nullable=false,updatable=false)

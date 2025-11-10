@@ -1,0 +1,42 @@
+package com.ticket.ticketplatform.domains;
+
+import jakarta.persistence.*;
+import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Entity
+@Table(name = "ticket_validations")
+@NoArgsConstructor
+@Getter
+@Setter
+@AllArgsConstructor
+@Builder
+public class TicketValidation {
+    @Id
+    @Column(name="id", updatable = false, nullable = false)
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+
+    @Column(name="status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TicketValidationStatusEnum status;
+
+    @Column(name="validation_method", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TicketValidationMethod validationMethod;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="ticket_id", nullable = false)
+    private Ticket ticket;
+    @CreatedDate
+    @Column(name="created_at", nullable = false, updatable = false)
+    private LocalDateTime created_at;
+
+    @LastModifiedDate
+    @Column(name="updated_at", nullable = false, updatable = true)
+    private LocalDateTime updated_at;
+}
